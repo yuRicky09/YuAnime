@@ -8,11 +8,11 @@ const request = axios.create({
 });
 
 export const useAnnictApi = function () {
-  function getWorks(query) {
+  function getWorks(queryObj) {
     return request.get("/works", {
       params: {
         sort_watchers_count: "desc",
-        ...query,
+        ...queryObj,
       },
     });
   }

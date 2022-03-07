@@ -1,67 +1,49 @@
 <template>
-  <DropdownMenu
-    :seleted-year="year"
-    :change-year-to="changeYearTo"
-    :change-season-to="changeSeasonTo"
-  />
-  <div v-for="work in works" :key="work.id" class="text-red-600">
-    {{ work.title }}
-  </div>
+  <h1 class="title">アニメ</h1>
+
+  <WorkSearch />
+
+  <div v-if="isLoading">isLoading</div>
+  <WorkList
+    v-if="!isLoading && works.length > 0"
+    :search-season="works[0].season_name_text"
+  >
+    <WorkListItem v-for="work in works" :key="work.id" :work="work" />
+  </WorkList>
 </template>
 
 <script setup>
-import { useAnnictApi } from "@/composables/useAnnictApi";
-import { watchEffect, ref, computed } from "vue";
-import DropdownMenu from "@/components/DropdownMenu.vue";
+import WorkSearch from "@/components/works/WorkSearch.vue";
+import WorkList from "@/components/works/WorkList.vue";
+import WorkListItem from "@/components/works/WorkListItem.vue";
+import { useWorkStore } from "@/store/workStore";
+import { provide } from "vue";
+import { storeToRefs } from "pinia";
 
-const year = ref(new Date().getFullYear());
-const season = ref(getSeason());
-const works = ref([]);
-const { getWorks } = useAnnictApi();
+const year = new Date().getFullYear();
+const month = new Date().getMonth() + 1;
+const currentSeason = getCurrentSeason(year, month);
 
-const filter_season = computed(() => `${year.value}-${season.value}`);
+provide("currentSeason", currentSeason);
 
-function getSeason() {
-  const month = new Date().getMonth() + 1;
+function getCurrentSeason(year, month) {
+  let season;
 
   if (month < 4) {
-    return "winter";
+    season = "winter";
   } else if (month < 7) {
-    return "spring";
+    season = "spring";
   } else if (month < 10) {
-    return "summer";
+    season = "summer";
   } else {
-    return "autumn";
+    season = "autumn";
   }
+
+  return `${year}-${season}`;
 }
 
-function changeYearTo(selectedYear) {
-  year.value = selectedYear;
-}
+const workStore = useWorkStore();
+const { works, isLoading } = storeToRefs(workStore);
 
-function changeSeasonTo(selectedSeason) {
-  switch (selectedSeason) {
-    case "春":
-      season.value = "spring";
-      break;
-    case "夏":
-      season.value = "summer";
-      break;
-    case "秋":
-      season.value = "autumn";
-      break;
-    case "冬":
-      season.value = "winnter";
-      break;
-  }
-}
-
-watchEffect(async () => {
-  const { data } = await getWorks({
-    page: 1,
-    filter_season: filter_season.value,
-  });
-
-  works.value = data.works;
-});
+workStore.getWorks({ filter_season: currentSeason });
 </script>

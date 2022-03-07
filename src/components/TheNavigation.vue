@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between py-4">
+  <header class="flex items-center justify-between py-4">
     <div class="flex items-baseline gap-10 text-xl">
       <router-link :to="{ name: 'Works' }" class="hover:opacity-80"
         >YuAnime</router-link
@@ -13,6 +13,7 @@
         </li>
       </ul>
     </div>
+
     <div class="flex h-8 gap-4">
       <Transition
         enter-active-class="animate-scale-right"
@@ -30,7 +31,7 @@
         @click="isSearchBarOpen = !isSearchBarOpen"
       />
     </div>
-  </div>
+  </header>
 </template>
 
 <script setup>
