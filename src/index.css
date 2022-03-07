@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    @apply font-medium;
+  }
+  h1 {
+    @apply text-3xl;
+  }
+  h2 {
+    @apply text-2xl tracking-[2px];
+  }
+  h3 {
+    @apply text-xl tracking-[5px];
+  }
+
+  svg {
+    @apply cursor-pointer fill-current;
+  }
+
+  input {
+    @apply rounded-2xl bg-neutral-700 px-5 py-1 outline-none;
+  }
+}
