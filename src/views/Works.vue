@@ -13,7 +13,7 @@
 
   <BasePagination
     :total-page="totalPage"
-    :current-page="currentPage"
+    :current-page="searchPage"
     @to-selected-page="toSelected"
   />
 </template>
@@ -24,23 +24,28 @@ import WorkList from "@/components/works/WorkList.vue";
 import WorkListItem from "@/components/works/WorkListItem.vue";
 import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
-import { provide, computed } from "vue";
+import { provide, ref, watchEffect } from "vue";
 import { storeToRefs } from "pinia";
-import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
+// 提供給快速搜尋按鈕用的currentSeason需要keep不能為響應式
 const currentSeason = getCurrentSeason(year, month);
-const currentPage = computed(() => {
-  const page = +route.query.page;
-  return page ? page : 1;
-});
+const searchSeason = ref(currentSeason);
+const searchPage = ref(getSearchPage());
 
 provide("currentSeason", currentSeason);
+provide("setSearchSeason", (season) => {
+  searchSeason.value = season;
+  searchPage.value = 1;
+});
 
 function getCurrentSeason(year, month) {
+  if (route.query.season) return route.query.season;
+
   let season;
 
   if (month < 4) {
@@ -56,18 +61,27 @@ function getCurrentSeason(year, month) {
   return `${year}-${season}`;
 }
 
-const workStore = useWorkStore();
-const { works, isLoading, totalPage } = storeToRefs(workStore);
-workStore.setSeason(currentSeason);
-workStore.getWorks({ page: currentPage.value });
-
-// 當page改變時執行callback，fetch新的data
-function toSelected(page) {
-  router.push({ name: "Works", query: { page: page } });
+function getSearchPage() {
+  const page = +route.query.page;
+  return page ? page : 1;
 }
 
-onBeforeRouteUpdate((to) => {
-  console.log("BeforeRouteUpdate觸發");
-  workStore.getWorks({ page: to.query.page });
+const workStore = useWorkStore();
+const { works, isLoading, totalPage } = storeToRefs(workStore);
+
+function toSelected(page) {
+  searchPage.value = page;
+}
+
+// 組件創建時就立即執行，當page or season改變時也要執行callback，fetch新的data
+watchEffect(() => {
+  router.push({
+    name: "Works",
+    query: { season: searchSeason.value, page: searchPage.value },
+  });
+  workStore.getWorks({
+    filter_season: searchSeason.value,
+    page: searchPage.value,
+  });
 });
 </script>

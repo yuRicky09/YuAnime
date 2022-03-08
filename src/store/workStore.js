@@ -7,7 +7,6 @@ export const useWorkStore = defineStore("workStore", {
   state: () => {
     return {
       works: [],
-      season: null,
       workPerPage: 10,
       totalCount: null,
       isLoading: false,
@@ -28,8 +27,6 @@ export const useWorkStore = defineStore("workStore", {
         const { data } = await annictApi.getWorks({
           sort_watchers_count: "desc",
           per_page: this.workPerPage,
-          page: 1,
-          filter_season: this.season,
           ...queryObj,
         });
 
@@ -40,9 +37,6 @@ export const useWorkStore = defineStore("workStore", {
       } finally {
         this.isLoading = false;
       }
-    },
-    setSeason(season) {
-      this.season = season;
     },
   },
 });

@@ -11,23 +11,26 @@
       placeholder="季節"
       @option-selected="changeSeasonTo"
     />
-    <button class="btn-3d" @click="getWorks">搜尋</button>
+    <button
+      class="btn-3d"
+      @click="setSearchSeason(`${selectedYear}-${selectedSeason}`)"
+    >
+      搜尋
+    </button>
   </div>
 </template>
 
 <script setup>
 import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import CalendarIcon from "@/assets/images/svg/calendar.svg";
-import { ref } from "vue";
-import { useWorkStore } from "@/store/workStore";
-import { useRouter } from "vue-router";
+import { ref, inject } from "vue";
 
 const selectedYear = ref("");
 const selectedSeason = ref("");
 const selectableYear = getSelectableYear();
-const selectableSeason = ["春", "夏", "秋", "冬"];
-const workStore = useWorkStore();
-const router = useRouter();
+const selectableSeason = ["冬", "春", "夏", "秋"];
+
+const setSearchSeason = inject("setSearchSeason");
 
 function getSelectableYear() {
   const year = new Date().getFullYear();
@@ -59,12 +62,5 @@ function changeSeasonTo(newSeason) {
       selectedSeason.value = "winter";
       break;
   }
-}
-
-function getWorks() {
-  if (!selectedYear.value || !selectedSeason.value) return;
-
-  workStore.setSeason(`${selectedYear.value}-${selectedSeason.value}`);
-  console.log(router);
 }
 </script>
