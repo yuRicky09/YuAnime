@@ -12,6 +12,7 @@ export const useAnnictApi = function () {
     return request.get("/works", {
       params: {
         sort_watchers_count: "desc",
+        per_page: 24,
         ...queryObj,
       },
     });

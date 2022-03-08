@@ -11,7 +11,7 @@
       placeholder="季節"
       @option-selected="changeSeasonTo"
     />
-    <button class="btn" @click="getWorks">搜尋</button>
+    <button class="btn-3d" @click="getWorks">搜尋</button>
   </div>
 </template>
 

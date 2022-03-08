@@ -31,6 +31,10 @@
 
 @layer components {
   .btn {
+    @apply rounded-lg border-2 border-transparent bg-emerald-500 py-1 px-4 transition-colors hover:border-2 hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500;
+  }
+
+  .btn-3d {
     @apply relative -top-1 rounded-sm bg-[#42b883] px-3 py-2 text-sm shadow-[0_4px_0_0_#33a06f] transition-all duration-300  hover:translate-y-[1px] hover:shadow-[0_3px_0_0_#33a06f]  active:translate-y-[4px] active:shadow-none;
   }
 

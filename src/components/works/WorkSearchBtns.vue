@@ -1,12 +1,12 @@
 <template>
   <div class="space-x-4">
-    <button class="btn" @click="getWorks({ filter_season: prevSeason })">
+    <button class="btn-3d" @click="getWorks({ filter_season: prevSeason })">
       前期アニメ
     </button>
-    <button class="btn" @click="getWorks({ filter_season: currentSeason })">
+    <button class="btn-3d" @click="getWorks({ filter_season: currentSeason })">
       今期アニメ
     </button>
-    <button class="btn" @click="getWorks({ filter_season: nextSeason })">
+    <button class="btn-3d" @click="getWorks({ filter_season: nextSeason })">
       来期アニメ
     </button>
   </div>
