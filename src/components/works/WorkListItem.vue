@@ -2,7 +2,7 @@
   <li class="w-96 overflow-hidden rounded-lg bg-neutral-700">
     <router-link
       to="#"
-      class="grid h-60 place-items-center transition-opacity hover:opacity-80"
+      class="flex h-60 items-center justify-center transition-opacity hover:opacity-80"
     >
       <img
         v-if="imageUrl"
@@ -17,15 +17,21 @@
       </div>
     </router-link>
 
-    <div class="flex flex-col items-start gap-4 px-3 py-5">
+    <div class="flex flex-col gap-5 px-3 py-5">
       <div class="space-x-3">
         <BaseTag :text="work.season_name_text" type="season" />
         <BaseTag :text="work.media_text" :type="work.media" />
       </div>
-      <router-link to="#" class="hover:opacity-80">
-        <h3 class="truncate text-lg">{{ work.title }}</h3>
-      </router-link>
-      <BaseOuterLink text="公式サイト" :href="work.official_site_url">
+      <h3 class="two-line h-14 text-lg">
+        <router-link to="#" class="hover:opacity-80">
+          {{ work.title }}
+        </router-link>
+      </h3>
+      <BaseOuterLink
+        text="公式サイト"
+        :href="work.official_site_url"
+        class="self-start"
+      >
         <OuterLinkIcon />
       </BaseOuterLink>
       <router-link to="#" class="btn mt-4 inline-block self-end"

@@ -20,12 +20,14 @@ import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import CalendarIcon from "@/assets/images/svg/calendar.svg";
 import { ref } from "vue";
 import { useWorkStore } from "@/store/workStore";
+import { useRouter } from "vue-router";
 
 const selectedYear = ref("");
 const selectedSeason = ref("");
 const selectableYear = getSelectableYear();
 const selectableSeason = ["春", "夏", "秋", "冬"];
 const workStore = useWorkStore();
+const router = useRouter();
 
 function getSelectableYear() {
   const year = new Date().getFullYear();
@@ -62,8 +64,7 @@ function changeSeasonTo(newSeason) {
 function getWorks() {
   if (!selectedYear.value || !selectedSeason.value) return;
 
-  workStore.getWorks({
-    filter_season: `${selectedYear.value}-${selectedSeason.value}`,
-  });
+  workStore.setSeason(`${selectedYear.value}-${selectedSeason.value}`);
+  console.log(router);
 }
 </script>

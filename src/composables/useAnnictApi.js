@@ -10,11 +10,7 @@ const request = axios.create({
 export const useAnnictApi = function () {
   function getWorks(queryObj) {
     return request.get("/works", {
-      params: {
-        sort_watchers_count: "desc",
-        per_page: 24,
-        ...queryObj,
-      },
+      params: queryObj,
     });
   }
 

@@ -10,19 +10,33 @@
   >
     <WorkListItem v-for="work in works" :key="work.id" :work="work" />
   </WorkList>
+
+  <BasePagination
+    :total-page="totalPage"
+    :current-page="currentPage"
+    @to-selected-page="toSelected"
+  />
 </template>
 
 <script setup>
 import WorkSearch from "@/components/works/WorkSearch.vue";
 import WorkList from "@/components/works/WorkList.vue";
 import WorkListItem from "@/components/works/WorkListItem.vue";
+import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
-import { provide } from "vue";
+import { provide, computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
 
+const router = useRouter();
+const route = useRoute();
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
 const currentSeason = getCurrentSeason(year, month);
+const currentPage = computed(() => {
+  const page = +route.query.page;
+  return page ? page : 1;
+});
 
 provide("currentSeason", currentSeason);
 
@@ -43,7 +57,17 @@ function getCurrentSeason(year, month) {
 }
 
 const workStore = useWorkStore();
-const { works, isLoading } = storeToRefs(workStore);
+const { works, isLoading, totalPage } = storeToRefs(workStore);
+workStore.setSeason(currentSeason);
+workStore.getWorks({ page: currentPage.value });
 
-workStore.getWorks({ filter_season: currentSeason });
+// 當page改變時執行callback，fetch新的data
+function toSelected(page) {
+  router.push({ name: "Works", query: { page: page } });
+}
+
+onBeforeRouteUpdate((to) => {
+  console.log("BeforeRouteUpdate觸發");
+  workStore.getWorks({ page: to.query.page });
+});
 </script>

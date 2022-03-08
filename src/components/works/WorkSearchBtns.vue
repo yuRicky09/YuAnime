@@ -1,24 +1,20 @@
 <template>
   <div class="space-x-4">
-    <button class="btn-3d" @click="getWorks({ filter_season: prevSeason })">
-      前期アニメ
-    </button>
-    <button class="btn-3d" @click="getWorks({ filter_season: currentSeason })">
-      今期アニメ
-    </button>
-    <button class="btn-3d" @click="getWorks({ filter_season: nextSeason })">
-      来期アニメ
-    </button>
+    <button class="btn-3d" @click="getWorks(prevSeason)">前期アニメ</button>
+    <button class="btn-3d" @click="getWorks(currentSeason)">今期アニメ</button>
+    <button class="btn-3d" @click="getWorks(nextSeason)">来期アニメ</button>
   </div>
 </template>
 
 <script setup>
 import { inject } from "vue";
 import { useWorkStore } from "@/store/workStore";
+import { useRouter } from "vue-router";
 
 const currentSeason = inject("currentSeason");
 const nextSeason = get("nextSeason", currentSeason);
 const prevSeason = get("prevSeason", currentSeason);
+const router = useRouter();
 
 function get(whichSeason, currentSeason) {
   let [year, season] = currentSeason.split("-");
@@ -45,5 +41,10 @@ function get(whichSeason, currentSeason) {
 }
 
 const workStore = useWorkStore();
-const { getWorks } = workStore;
+
+function getWorks(season) {
+  console.log(router);
+  router.push({ name: "Works" });
+  workStore.getWorks({ filter_season: season });
+}
 </script>
