@@ -26,14 +26,18 @@
 <script setup>
 import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import CalendarIcon from "@/assets/images/svg/calendar.svg";
-import { ref, inject } from "vue";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const selectedYear = ref("");
 const selectedSeason = ref("");
 const selectableYear = getSelectableYear();
 const selectableSeason = ["冬", "春", "夏", "秋"];
+const router = useRouter();
 
-const setSearchSeason = inject("setSearchSeason");
+const filterSeason = computed(
+  () => `${selectedYear.value}-${selectedSeason.value}`
+);
 
 function getSelectableYear() {
   const year = new Date().getFullYear();
@@ -70,6 +74,9 @@ function changeSeasonTo(newSeason) {
 function searchSeason() {
   if (!selectedYear.value || !selectedSeason.value) return;
 
-  setSearchSeason(`${selectedYear.value}-${selectedSeason.value}`);
+  router.push({
+    name: "Works",
+    query: { season: filterSeason.value, page: 1 },
+  });
 }
 </script>

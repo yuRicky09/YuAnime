@@ -11,6 +11,12 @@ const routes = [
     name: "Works",
     component: Works,
   },
+  {
+    path: "/works/:id",
+    name: "WorkDetail",
+    component: () => import("@/views/WorkDetail.vue"),
+    props: true,
+  },
 ];
 
 const router = createRouter({

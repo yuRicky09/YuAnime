@@ -1,7 +1,7 @@
 <template>
   <li class="overflow-hidden rounded-lg bg-neutral-700">
     <router-link
-      to="#"
+      :to="{ name: 'WorkDetail', params: { id: work.id } }"
       class="flex h-60 items-center justify-center transition-opacity hover:opacity-80"
     >
       <img
@@ -41,11 +41,16 @@
       </div>
 
       <h3 class="two-line h-14 text-lg">
-        <router-link to="#" class="hover:opacity-80">
+        <router-link
+          :to="{ name: 'WorkDetail', params: { id: work.id } }"
+          class="hover:opacity-80"
+        >
           {{ work.title }}
         </router-link>
       </h3>
-      <router-link to="#" class="btn mt-4 inline-block self-end"
+      <router-link
+        :to="{ name: 'WorkDetail', params: { id: work.id } }"
+        class="btn mt-4 inline-block self-end"
         >More</router-link
       >
     </div>

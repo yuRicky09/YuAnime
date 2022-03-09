@@ -137,8 +137,8 @@ function toSelected(page) {
   )
     return;
 
-  // 於mobile模式下 按上下頁時只更新下拉選單mobileSelectedPage的值，fetch資料透過watch的callback來觸發
-  if (window.innerWidth < 568) {
+  // mobile模式下按上下一頁按紐時，更新完mobileSelectedPage的值就return，callback讓watch來執行防止重複呼叫toSelectedPage
+  if (window.innerWidth < 640) {
     mobileSelectedPage.value = page;
     return;
   }
@@ -146,7 +146,7 @@ function toSelected(page) {
   emit("toSelectedPage", page);
 }
 
-watch(mobileSelectedPage, () =>
-  emit("toSelectedPage", mobileSelectedPage.value)
-);
+watch(mobileSelectedPage, () => {
+  emit("toSelectedPage", mobileSelectedPage.value);
+});
 </script>

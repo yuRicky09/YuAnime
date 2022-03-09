@@ -1,20 +1,23 @@
 <template>
   <div class="xs:space-x-4">
-    <button
+    <router-link
       class="btn-3d xs:inline-block hidden"
-      @click="setSearchSeason(prevSeason)"
+      :to="{ name: 'Works', query: { season: prevSeason, page: 1 } }"
     >
       前期アニメ
-    </button>
-    <button class="btn-3d" @click="setSearchSeason(currentSeason)">
+    </router-link>
+    <router-link
+      class="btn-3d"
+      :to="{ name: 'Works', query: { season: currentSeason, page: 1 } }"
+    >
       今期アニメ
-    </button>
-    <button
+    </router-link>
+    <router-link
       class="btn-3d xs:inline-block hidden"
-      @click="setSearchSeason(nextSeason)"
+      :to="{ name: 'Works', query: { season: nextSeason, page: 1 } }"
     >
       来期アニメ
-    </button>
+    </router-link>
   </div>
 </template>
 
@@ -22,7 +25,6 @@
 import { inject } from "vue";
 
 const currentSeason = inject("currentSeason");
-const setSearchSeason = inject("setSearchSeason");
 const nextSeason = get("nextSeason", currentSeason);
 const prevSeason = get("prevSeason", currentSeason);
 

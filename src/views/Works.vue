@@ -29,7 +29,7 @@
   <BasePagination
     :total-page="totalPage"
     :current-page="searchPage"
-    @to-selected-page="toSelected"
+    @to-selected-page="toSelectedPage"
   />
 </template>
 
@@ -40,11 +40,11 @@ import WorkListItem from "@/components/works/WorkListItem.vue";
 import WorkListItemSkeleton from "@/components/works/WorkListItemSkeleton.vue";
 import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
-import { provide, ref, watchEffect } from "vue";
+import { provide, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
+import router from "@/router";
 
-const router = useRouter();
 const route = useRoute();
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
@@ -54,10 +54,6 @@ const searchSeason = ref(getSearchSeason());
 const searchPage = ref(getSearchPage());
 
 provide("currentSeason", currentSeason);
-provide("setSearchSeason", (season) => {
-  searchSeason.value = season;
-  searchPage.value = 1;
-});
 
 function getCurrentSeason(year, month) {
   let season;
@@ -84,22 +80,24 @@ function getSearchPage() {
   return page ? page : 1;
 }
 
-const workStore = useWorkStore();
-const { works, isLoading, totalPage } = storeToRefs(workStore);
-
-function toSelected(page) {
-  searchPage.value = page;
+function toSelectedPage(page) {
+  const season = route.query.season || searchSeason.value;
+  router.push({ nmae: "Works", query: { season, page } });
 }
 
-// 組件創建時就立即執行，當page or season改變時也要執行callback，fetch新的data
-watchEffect(() => {
-  router.push({
-    name: "Works",
-    query: { season: searchSeason.value, page: searchPage.value },
-  });
+const workStore = useWorkStore();
+const { works, isLoading, totalPage } = storeToRefs(workStore);
+// init
+workStore.getWorks({
+  filter_season: searchSeason.value,
+  page: searchPage.value,
+});
+
+onBeforeRouteUpdate((to) => {
+  searchPage.value = +to.query.page;
   workStore.getWorks({
-    filter_season: searchSeason.value,
-    page: searchPage.value,
+    filter_season: to.query.season,
+    page: to.query.page,
   });
 });
 </script>
