@@ -1,9 +1,9 @@
 <template>
-  <header class="flex items-center justify-between py-4">
-    <div class="flex items-baseline gap-10 text-xl">
-      <router-link :to="{ name: 'Works' }" class="hover:opacity-80"
-        >YuAnime</router-link
-      >
+  <header class="flex items-center py-4 sm:justify-between">
+    <div
+      class="flex flex-1 items-baseline justify-between gap-10 text-xl sm:flex-none sm:justify-start"
+    >
+      <h1>YuAnime</h1>
       <ul class="flex items-center gap-5">
         <li class="transition-colors hover:text-emerald-400">
           <router-link :to="{ name: 'Works' }">アニメ</router-link>
@@ -14,7 +14,7 @@
       </ul>
     </div>
 
-    <div class="flex h-8 gap-4">
+    <div class="hidden h-8 gap-4 sm:flex">
       <Transition
         enter-active-class="animate-scale-right"
         leave-active-class="animate-scale-right-reverse"

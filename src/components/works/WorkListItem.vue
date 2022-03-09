@@ -1,5 +1,5 @@
 <template>
-  <li class="w-96 overflow-hidden rounded-lg bg-neutral-700">
+  <li class="overflow-hidden rounded-lg bg-neutral-700">
     <router-link
       to="#"
       class="flex h-60 items-center justify-center transition-opacity hover:opacity-80"
@@ -22,18 +22,29 @@
         <BaseTag :text="work.season_name_text" type="season" />
         <BaseTag :text="work.media_text" :type="work.media" />
       </div>
+
+      <div class="space-x-5">
+        <BaseOuterLink
+          text="公式サイト"
+          :href="work.official_site_url"
+          class="self-start"
+        >
+          <OuterLinkIcon />
+        </BaseOuterLink>
+        <BaseOuterLink
+          text="Twitter"
+          :href="`https://twitter.com/${work.twitter_username}`"
+          class="self-start text-sky-500"
+        >
+          <TwitterIcon class="fill-sky-500" />
+        </BaseOuterLink>
+      </div>
+
       <h3 class="two-line h-14 text-lg">
         <router-link to="#" class="hover:opacity-80">
           {{ work.title }}
         </router-link>
       </h3>
-      <BaseOuterLink
-        text="公式サイト"
-        :href="work.official_site_url"
-        class="self-start"
-      >
-        <OuterLinkIcon />
-      </BaseOuterLink>
       <router-link to="#" class="btn mt-4 inline-block self-end"
         >More</router-link
       >
@@ -46,6 +57,7 @@ import NoImageIcon from "@/assets/images/svg/dizzy.svg";
 import BaseTag from "@/components/UI/BaseTag.vue";
 import BaseOuterLink from "@/components/UI/BaseOuterLink.vue";
 import OuterLinkIcon from "@/assets/images/svg/link-external.svg";
+import TwitterIcon from "@/assets/images/svg/twitter.svg";
 import { ref } from "vue";
 
 const props = defineProps({

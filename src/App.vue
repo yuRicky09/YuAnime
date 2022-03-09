@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl">
+  <div class="xs:px-6 mx-auto max-w-7xl px-2 sm:px-10 md:px-14 lg:px-16">
     <TheNavigation />
     <router-view></router-view>
     <TheFooter />

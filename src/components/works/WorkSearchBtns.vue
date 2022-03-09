@@ -1,12 +1,18 @@
 <template>
-  <div class="space-x-4">
-    <button class="btn-3d" @click="setSearchSeason(prevSeason)">
+  <div class="xs:space-x-4">
+    <button
+      class="btn-3d xs:inline-block hidden"
+      @click="setSearchSeason(prevSeason)"
+    >
       前期アニメ
     </button>
     <button class="btn-3d" @click="setSearchSeason(currentSeason)">
       今期アニメ
     </button>
-    <button class="btn-3d" @click="setSearchSeason(nextSeason)">
+    <button
+      class="btn-3d xs:inline-block hidden"
+      @click="setSearchSeason(nextSeason)"
+    >
       来期アニメ
     </button>
   </div>

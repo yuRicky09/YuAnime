@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-5">
-    <CalendarIcon class="my-auto cursor-default" />
+  <div class="flex gap-4">
+    <CalendarIcon class="my-auto hidden cursor-default sm:block" />
     <DropdownMenu
       :options="selectableYear"
       placeholder="年"
@@ -13,7 +13,10 @@
     />
     <button
       class="btn-3d"
-      @click="setSearchSeason(`${selectedYear}-${selectedSeason}`)"
+      :class="{
+        '!cursor-not-allowed opacity-40': !selectedYear || !selectedSeason,
+      }"
+      @click="searchSeason"
     >
       搜尋
     </button>
@@ -62,5 +65,11 @@ function changeSeasonTo(newSeason) {
       selectedSeason.value = "winter";
       break;
   }
+}
+
+function searchSeason() {
+  if (!selectedYear.value || !selectedSeason.value) return;
+
+  setSearchSeason(`${selectedYear.value}-${selectedSeason.value}`);
 }
 </script>

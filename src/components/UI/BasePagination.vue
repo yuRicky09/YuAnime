@@ -1,5 +1,5 @@
 <template>
-  <nav class="my-10 flex items-center justify-center gap-8">
+  <nav class="my-10 flex justify-center gap-4 sm:items-center sm:gap-8">
     <div
       class="flex cursor-pointer items-center rounded-md bg-emerald-500 py-1 px-[10px] transition-colors duration-200 hover:bg-emerald-400"
       :class="{
@@ -10,7 +10,7 @@
       <span class="relative -top-[1px] align-middle">&laquo;</span>
     </div>
 
-    <ul class="flex gap-4">
+    <ul class="hidden sm:flex sm:gap-4">
       <li
         v-for="(page, index) in pages"
         :key="index"
@@ -27,8 +27,22 @@
       </li>
     </ul>
 
+    <select
+      v-model="mobileSelectedPage"
+      class="bg-neutral-800 py-1 px-1 outline-none sm:hidden"
+    >
+      <option
+        v-for="page in mobilePages"
+        :key="page"
+        :value="page"
+        :selected="currentPage === page ? true : false"
+      >
+        {{ page }}
+      </option>
+    </select>
+
     <button
-      class="flex cursor-pointer items-center rounded-md bg-emerald-500 py-1 px-2 transition-colors duration-200 hover:bg-emerald-400"
+      class="flex cursor-pointer items-center rounded-md bg-emerald-500 py-1 px-[10px] transition-colors duration-200 hover:bg-emerald-400"
       :class="{
         '!cursor-not-allowed hover:!bg-emerald-500': currentPage === totalPage,
       }"
@@ -40,7 +54,7 @@
 </template>
 
 <script setup>
-import { computed, toRefs } from "vue";
+import { computed, toRefs, ref, watch } from "vue";
 
 const emit = defineEmits(["toSelectedPage"]);
 
@@ -104,6 +118,16 @@ const pages = computed(() => {
   ];
 });
 
+const mobileSelectedPage = ref(currentPage.value);
+const mobilePages = computed(() => {
+  const pages = [];
+  for (let i = 1; i <= totalPage.value; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+});
+
 function toSelected(page) {
   if (
     page < 1 ||
@@ -113,6 +137,16 @@ function toSelected(page) {
   )
     return;
 
+  // 於mobile模式下 按上下頁時只更新下拉選單mobileSelectedPage的值，fetch資料透過watch的callback來觸發
+  if (window.innerWidth < 568) {
+    mobileSelectedPage.value = page;
+    return;
+  }
+
   emit("toSelectedPage", page);
 }
+
+watch(mobileSelectedPage, () =>
+  emit("toSelectedPage", mobileSelectedPage.value)
+);
 </script>

@@ -7,7 +7,7 @@ export const useWorkStore = defineStore("workStore", {
   state: () => {
     return {
       works: [],
-      workPerPage: 10,
+      workPerPage: 24,
       totalCount: null,
       isLoading: false,
     };

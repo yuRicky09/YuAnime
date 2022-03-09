@@ -1,6 +1,4 @@
 <template>
-  <h1 class="title">アニメ</h1>
-
   <WorkSearch />
 
   <div v-if="isLoading">isLoading</div>
