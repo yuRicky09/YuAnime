@@ -21,7 +21,7 @@
 
   <WorkList v-if="!isLoading && works.length > 0">
     <template #header>
-      <h2 class="my-8 text-center">{{ works[0].season_name_text }}のアニメ</h2>
+      <h2 class="my-8 text-center">検索結果{{ totalCount }}件</h2>
     </template>
     <WorkListItem v-for="work in works" :key="work.id" :work="work" />
   </WorkList>
@@ -40,44 +40,46 @@ import WorkListItem from "@/components/works/WorkListItem.vue";
 import WorkListItemSkeleton from "@/components/works/WorkListItemSkeleton.vue";
 import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
-import { inject, ref } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import router from "@/router";
 
 const route = useRoute();
-// 未有query時都以當前季節搜尋
-const currentSeason = inject("currentSeason");
-const searchSeason = ref(getSearchSeason());
 const searchPage = ref(getSearchPage());
-
-function getSearchSeason() {
-  return route.query.season ? route.query.season : currentSeason;
-}
+const searchTitle = ref(getSearchTitle());
 
 function getSearchPage() {
-  const page = +route.query.page;
-  return page ? page : 1;
+  return +route.query.page ? +route.query.page : 1;
+}
+
+function getSearchTitle() {
+  return route.query.title ? route.query.title : " ";
 }
 
 function toSelectedPage(page) {
-  const season = route.query.season || searchSeason.value;
-  router.push({ nmae: "Works", query: { season, page } });
+  const title = getSearchTitle();
+
+  router.push({
+    nmae: "SearchWork",
+    query: { title, page },
+  });
 }
 
 const workStore = useWorkStore();
-const { works, isLoading, totalPage } = storeToRefs(workStore);
-// init
+const { works, isLoading, totalPage, totalCount } = storeToRefs(workStore);
+
 workStore.getWorks({
-  filter_season: searchSeason.value,
+  filter_title: searchTitle.value,
   page: searchPage.value,
 });
 
 onBeforeRouteUpdate((to) => {
   searchPage.value = +to.query.page;
   workStore.getWorks({
-    filter_season: to.query.season,
+    filter_title: to.query.title,
     page: to.query.page,
+    sort_season: "desc",
   });
 });
 </script>

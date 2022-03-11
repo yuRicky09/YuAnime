@@ -9,4 +9,27 @@
 <script setup>
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavigation from "@/components/TheNavigation.vue";
+import { provide } from "vue";
+
+const year = new Date().getFullYear();
+const month = new Date().getMonth() + 1;
+const currentSeason = getCurrentSeason(year, month);
+
+function getCurrentSeason(year, month) {
+  let season;
+
+  if (month < 4) {
+    season = "winter";
+  } else if (month < 7) {
+    season = "spring";
+  } else if (month < 10) {
+    season = "summer";
+  } else {
+    season = "autumn";
+  }
+
+  return `${year}-${season}`;
+}
+
+provide("currentSeason", currentSeason);
 </script>

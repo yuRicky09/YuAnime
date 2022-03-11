@@ -19,7 +19,11 @@
 
     <div class="flex flex-col gap-5 px-3 py-5">
       <div class="space-x-3">
-        <BaseTag :text="work.season_name_text" type="season" />
+        <BaseTag
+          v-if="work.season_name_text"
+          :text="work.season_name_text"
+          type="season"
+        />
         <BaseTag :text="work.media_text" :type="work.media" />
       </div>
 
@@ -64,6 +68,7 @@ import BaseOuterLink from "@/components/UI/BaseOuterLink.vue";
 import OuterLinkIcon from "@/assets/images/svg/link-external.svg";
 import TwitterIcon from "@/assets/images/svg/twitter.svg";
 import { ref } from "vue";
+import { useWorkImageUrl } from "@/composables/useWorkImageUrl";
 
 const props = defineProps({
   work: {
@@ -72,9 +77,6 @@ const props = defineProps({
   },
 });
 
-const imageUrl = ref(
-  props.work.images.recommended_url ||
-    props.work.images.facebook.og_image_url ||
-    props.work.images.twitter.image_url
-);
+const { getWorkImageUrl } = useWorkImageUrl();
+const imageUrl = ref(getWorkImageUrl(props.work));
 </script>

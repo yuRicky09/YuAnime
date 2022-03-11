@@ -1,6 +1,6 @@
 <template>
   <div
-    class="xs:w-24 relative flex w-20 cursor-pointer items-center justify-center bg-neutral-700 sm:w-32"
+    class="xs:w-24 relative flex w-20 cursor-pointer select-none items-center justify-center bg-neutral-700 sm:w-32"
     @click="isOpen = true"
   >
     <span class="block">{{ selectedOption }}</span>

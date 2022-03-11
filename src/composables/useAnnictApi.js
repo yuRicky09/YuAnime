@@ -14,5 +14,17 @@ export const useAnnictApi = function () {
     });
   }
 
-  return { getWorks };
+  function getCasts(queryObj) {
+    return request.get("/casts", {
+      params: queryObj,
+    });
+  }
+
+  function getStaffs(queryObj) {
+    return request.get("/staffs", {
+      params: queryObj,
+    });
+  }
+
+  return { getWorks, getCasts, getStaffs };
 };

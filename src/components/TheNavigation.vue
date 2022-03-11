@@ -3,40 +3,72 @@
     <div
       class="flex flex-1 items-baseline justify-between gap-10 text-xl sm:flex-none sm:justify-start"
     >
-      <h1>YuAnime</h1>
-      <ul class="flex items-center gap-5">
-        <li class="transition-colors hover:text-emerald-400">
-          <router-link :to="{ name: 'Works' }">アニメ</router-link>
-        </li>
-        <li class="transition-colors hover:text-emerald-400">
-          <router-link to="#">声優</router-link>
-        </li>
-      </ul>
+      <router-link
+        class="transition-colors hover:text-emerald-500"
+        :to="{ name: 'Works', query: { season: currentSeason, page: 1 } }"
+      >
+        <h1>YuAnime</h1>
+      </router-link>
     </div>
 
-    <div class="hidden h-8 gap-4 sm:flex">
+    <div class="relative z-20 hidden h-8 gap-4 sm:flex">
       <Transition
         enter-active-class="animate-scale-right"
         leave-active-class="animate-scale-right-reverse"
       >
         <input
           v-show="isSearchBarOpen"
+          v-model.trim="inputValue"
           type="text"
-          placeholder="作品名や声優名で検索"
+          placeholder="作品名で検索"
           class="origin-right placeholder:text-sm"
+          @keydown.enter="searchWork"
         />
       </Transition>
       <SearchIcon
         class="relative top-1 hover:opacity-80"
-        @click="isSearchBarOpen = !isSearchBarOpen"
+        @click="toggleSearchBar"
       />
     </div>
+    <BaseOverlay v-if="isOpen" @click="clearAll" />
   </header>
 </template>
 
 <script setup>
 import SearchIcon from "@/assets/images/svg/search.svg";
-import { ref } from "vue";
+import { ref, inject } from "vue";
+import BaseOverlay from "@/components/UI/BaseOverlay.vue";
+import { useRouter } from "vue-router";
 
+const currentSeason = inject("currentSeason");
 const isSearchBarOpen = ref(false);
+const isOpen = ref(false);
+const inputValue = ref(null);
+const router = useRouter();
+
+function toggleSearchBar() {
+  if (!isSearchBarOpen.value) {
+    isSearchBarOpen.value = true;
+  } else if (isSearchBarOpen.value) {
+    if (inputValue.value) {
+      searchWork();
+    } else {
+      clearAll();
+    }
+  }
+}
+
+function searchWork() {
+  router.push({
+    name: "SearchWork",
+    query: { title: inputValue.value || " ", page: 1 },
+  });
+  clearAll();
+}
+
+function clearAll() {
+  isSearchBarOpen.value = false;
+  isOpen.value = false;
+  inputValue.value = null;
+}
 </script>
