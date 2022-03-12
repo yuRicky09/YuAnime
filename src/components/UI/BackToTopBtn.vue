@@ -20,7 +20,7 @@ import { ref, onMounted } from "vue";
 const isShow = ref(false);
 
 function backToTop() {
-  document.documentElement.scrollTo({
+  window.scrollTo({
     top: 0,
     left: 0,
     behavior: "smooth",
