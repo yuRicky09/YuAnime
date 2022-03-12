@@ -74,7 +74,9 @@
   
   <img src="./sample/yuanime-sample6.png" width="300" />
 </p>
+
 ## :books: Learn
+
 #### 收穫
 
 1. 更加熟習如何使用 Vue `Composition API`、`TailwindCSS`。
