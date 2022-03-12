@@ -22,6 +22,7 @@ const routes = [
     path: "/search",
     name: "SearchWork",
     component: () => import("@/views/SearchWork.vue"),
+    meta: { title: "検索 | YuAnime" },
   },
   {
     path: "/:pathMatch(.*)*",

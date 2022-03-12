@@ -74,10 +74,12 @@ workStore.getWorks({
 });
 
 onBeforeRouteUpdate((to) => {
+  searchSeason.value = to.query.season;
   searchPage.value = +to.query.page;
+
   workStore.getWorks({
-    filter_season: to.query.season,
-    page: to.query.page,
+    filter_season: searchSeason.value,
+    page: searchPage.value,
   });
 });
 </script>

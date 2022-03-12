@@ -3,12 +3,14 @@
     <TheNavigation />
     <router-view></router-view>
     <TheFooter />
+    <BackToTopBtn />
   </div>
 </template>
 
 <script setup>
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavigation from "@/components/TheNavigation.vue";
+import BackToTopBtn from "@/components/UI/BackToTopBtn.vue";
 import { provide } from "vue";
 
 const year = new Date().getFullYear();

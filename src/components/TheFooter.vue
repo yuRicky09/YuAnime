@@ -5,7 +5,7 @@
     <div class="flex items-center gap-4">
       <h3 class="font-bold">YuAnime</h3>
       <a
-        href="https://github.com/yuRicky09/my-portfolio"
+        href="https://github.com/yuRicky09/YuAnime"
         target="_blank"
         class="flex items-center gap-2 hover:opacity-80"
       >

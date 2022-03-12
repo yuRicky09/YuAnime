@@ -58,13 +58,13 @@ export const useWorkStore = defineStore("workStore", {
         if (!this.work) {
           const { data } = await annictApi.getWorks({ filter_ids: id });
           if (!data.works[0]) {
-            this.router.push({ name: "Works" });
+            this.router.push({ name: "NotFound" });
             return;
           }
           this.work = data.works[0];
         }
 
-        document.title = this.work.title;
+        document.title = `${this.work.title} | YuAnime`;
         this.workImageUrl = getWorkImageUrl(this.work);
 
         const castsPromise = annictApi.getCasts({

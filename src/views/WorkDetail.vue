@@ -31,7 +31,11 @@
             </p>
           </div>
           <div class="space-x-4">
-            <BaseTag :text="work.season_name_text" type="season" />
+            <BaseTag
+              v-if="work.season_name_text"
+              :text="work.season_name_text"
+              type="season"
+            />
             <BaseTag :text="work.media_text" :type="work.media" />
           </div>
           <div class="flex items-center gap-4 md:order-2">

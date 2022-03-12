@@ -1,6 +1,6 @@
 <template>
   <div
-    class="xs:w-24 relative flex w-20 cursor-pointer select-none items-center justify-center bg-neutral-700 sm:w-32"
+    class="xs:w-24 relative flex w-20 cursor-pointer select-none items-center justify-center bg-neutral-600 sm:w-32"
     @click="isOpen = true"
   >
     <span class="block">{{ selectedOption }}</span>
@@ -11,7 +11,7 @@
       <ul
         v-show="isOpen"
         ref="menu"
-        class="absolute top-[calc(100%+5px)] left-0 z-20 max-h-44 min-h-min w-full origin-top overflow-y-auto bg-inherit py-2 text-center"
+        class="absolute top-[calc(100%+5px)] left-0 z-20 max-h-44 w-full origin-top overflow-y-auto bg-inherit py-2 text-center"
       >
         <li
           v-for="option in options"

@@ -21,7 +21,10 @@
 
   <WorkList v-if="!isLoading && works.length > 0">
     <template #header>
-      <h2 class="my-8 text-center">検索結果{{ totalCount }}件</h2>
+      <h2 class="my-8 text-center">
+        <span class="text-emerald-500">{{ searchTitle }}</span
+        >の検索結果:{{ totalCount }}件
+      </h2>
     </template>
     <WorkListItem v-for="work in works" :key="work.id" :work="work" />
   </WorkList>
@@ -75,10 +78,12 @@ workStore.getWorks({
 });
 
 onBeforeRouteUpdate((to) => {
+  searchTitle.value = to.query.title;
   searchPage.value = +to.query.page;
+
   workStore.getWorks({
-    filter_title: to.query.title,
-    page: to.query.page,
+    filter_title: searchTitle.value,
+    page: searchPage.value,
     sort_season: "desc",
   });
 });
