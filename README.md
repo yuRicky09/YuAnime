@@ -80,12 +80,12 @@
 #### 收穫
 
 1. 更加熟習如何使用 Vue `Composition API`、`TailwindCSS`。
-2. 使用 Vue 官方推薦狀態管理套件`Pinia`，對於一般的小專案來說相較於`Vuex`我想使用`Pinia`會更方便許多，移除了`Vuex`中稍嫌繁瑣的`Mutation`階段改為僅有`state`、`getter`、`action`三階段，且分別對應 option API 中的`data`、`computed`、`method`三個觀念用起來更直覺，另外也提供了許多直接操作`state`的 API 與訂閱 store 等特性，使用起來確實更輕巧更方便。
+2. 使用 Vue 官方推薦狀態管理套件`Pinia`，對於一般的小專案來說相較於`Vuex`我想使用`Pinia`會方便許多，移除`Vuex`中稍嫌繁瑣的`Mutation`改為僅有`state`、`getter`、`action`三階段，且分別對應 option API 中的`data`、`computed`、`method`三個觀念用起來更直覺，另外也提供了許多直接操作`state`的 API 與訂閱 store 等特性，使用起來確實更輕巧方便。。
 3. 由於動畫資料不是一次性全部 fetch 下來存於全局狀態管理中，而是透過 query 來指定要的資料，為了讓每次 fetch 資料時能有更好的畫面呈現與使用者體驗，製作了組件的`Skeleton`讓資料尚未載入完畢時也能有骨架支撐版面，減少畫面大幅變動。
 
 #### 反思
 
-1. 雖然此次使用了`Pinia`來管理狀態，但此次的專案規模不大，大多數的資料也都不會有過於複雜的組件間流動甚至只需自己使用，把一些局部資料也存於`Pinia`確實是稍嫌不適當，希望隨著經驗的累積能更加規劃區別好局部與全局的狀態劃分。
+1. 雖然此次使用了`Pinia`來管理狀態，但此次的專案規模不大，大多數的資料也都不會有過於複雜的組件間流動甚至只需自己使用，把一些局部資料也存於`Pinia`確實是稍嫌不適當，希望隨著經驗的累積能更加規劃好局部與全局的狀態劃分。
 2. 有別於另一個專案<a href="https://yustory-ded59.firebaseapp.com/" target="_blank">YUSTORY</a>是初次就載入所有資料，這次 YuAnime 的資料是按需載入，對於資料的處理邏輯與分頁功能是此次花費最多的部分，最終使用`onBeforeRouteUpdate`來達成每次 query 變更時再次 fetch 新的資料，並且透過`Skeleton`防止等待資料時畫面布局空洞的問題。
 
 ---

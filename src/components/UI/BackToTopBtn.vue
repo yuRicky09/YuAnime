@@ -5,7 +5,7 @@
   >
     <div
       v-show="isShow"
-      class="fixed right-10 bottom-10 z-10 hover:opacity-80"
+      class="fixed right-10 bottom-10 z-10 cursor-pointer hover:opacity-80"
       @click="backToTop"
     >
       <BackToTopIcon class="h-10 w-10" />
