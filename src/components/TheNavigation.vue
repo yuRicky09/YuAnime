@@ -1,8 +1,6 @@
 <template>
   <header class="flex items-center py-4 sm:justify-between">
-    <div
-      class="flex flex-1 items-baseline justify-between gap-10 text-xl sm:flex-none sm:justify-start"
-    >
+    <div class="text-xl">
       <router-link
         class="transition-colors hover:text-emerald-500"
         :to="{ name: 'Works', query: { season: currentSeason, page: 1 } }"
@@ -30,7 +28,7 @@
         @click="toggleSearchBar"
       />
     </div>
-    <BaseOverlay v-if="isOpen" @click="clearAll" />
+    <BaseOverlay v-show="isOpen" @click="clearAll" />
   </header>
 </template>
 
@@ -49,6 +47,7 @@ const router = useRouter();
 function toggleSearchBar() {
   if (!isSearchBarOpen.value) {
     isSearchBarOpen.value = true;
+    isOpen.value = true;
   } else if (isSearchBarOpen.value) {
     if (inputValue.value) {
       searchWork();
@@ -61,6 +60,7 @@ function toggleSearchBar() {
 function searchWork() {
   router.push({
     name: "SearchWork",
+    // 搜尋框未填就按下enter則給予預設值，一次回傳所有動畫資料
     query: { title: inputValue.value || " ", page: 1 },
   });
   clearAll();

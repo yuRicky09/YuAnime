@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="min-h-screen">
       <BaseSpinner />
     </div>
-    <template v-else>
+    <template v-else-if="!isLoading && work">
       <div
         class="flex flex-col items-center gap-6 md:flex-row md:justify-center"
       >
@@ -103,7 +103,7 @@ const props = defineProps({
 
 const workStore = useWorkStore();
 const { work, casts, staffs, isLoading, workImageUrl } = storeToRefs(workStore);
-workStore.getWork(Number(props.id));
+workStore.getWork(props.id);
 
 onBeforeUnmount(() => {
   workStore.$patch({

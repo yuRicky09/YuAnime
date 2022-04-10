@@ -44,7 +44,7 @@
         </BaseOuterLink>
       </div>
 
-      <h3 class="two-line h-14 text-lg">
+      <h3 class="h-14 text-lg two-line">
         <router-link
           :to="{ name: 'WorkDetail', params: { id: work.id } }"
           class="hover:opacity-80"

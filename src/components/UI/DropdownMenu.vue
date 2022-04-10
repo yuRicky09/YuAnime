@@ -1,6 +1,6 @@
 <template>
   <div
-    class="xs:w-24 relative flex w-20 cursor-pointer select-none items-center justify-center bg-neutral-600 sm:w-32"
+    class="relative flex w-20 cursor-pointer select-none items-center justify-center bg-neutral-600 xs:w-24 sm:w-32"
     @click="isOpen = true"
   >
     <span class="block">{{ selectedOption }}</span>
@@ -25,15 +25,12 @@
       </ul>
     </Transition>
   </div>
-  <BaseOverlay v-if="isOpen" @click="isOpen = false" />
+  <BaseOverlay v-show="isOpen" @click="isOpen = false" />
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
-
-const BaseOverlay = defineAsyncComponent(() =>
-  import("@/components/UI/BaseOverlay.vue")
-);
+import { ref } from "vue";
+import BaseOverlay from "@/components/UI/BaseOverlay.vue";
 
 const props = defineProps({
   options: {

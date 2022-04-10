@@ -42,10 +42,10 @@ import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
 import { inject, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRoute, onBeforeRouteUpdate } from "vue-router";
-import router from "@/router";
+import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 // 未有query時都以當前季節搜尋
 const currentSeason = inject("currentSeason");
 const searchSeason = ref(getSearchSeason());

@@ -1,7 +1,7 @@
 <template>
-  <div class="xs:space-x-4">
+  <div class="xs:space-x-2 sm:space-x-4">
     <router-link
-      class="btn-3d xs:inline-block hidden"
+      class="btn-3d hidden xs:inline-block"
       :to="{ name: 'Works', query: { season: prevSeason, page: 1 } }"
     >
       前期アニメ
@@ -13,7 +13,7 @@
       今期アニメ
     </router-link>
     <router-link
-      class="btn-3d xs:inline-block hidden"
+      class="btn-3d hidden xs:inline-block"
       :to="{ name: 'Works', query: { season: nextSeason, page: 1 } }"
     >
       来期アニメ

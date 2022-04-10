@@ -29,8 +29,8 @@ import CalendarIcon from "@/assets/images/svg/calendar.svg";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
-const selectedYear = ref("");
-const selectedSeason = ref("");
+const selectedYear = ref(null);
+const selectedSeason = ref(null);
 const selectableYear = getSelectableYear();
 const selectableSeason = ["冬", "春", "夏", "秋"];
 const router = useRouter();

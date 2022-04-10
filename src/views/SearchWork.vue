@@ -45,10 +45,10 @@ import BasePagination from "@/components/UI/BasePagination.vue";
 import { useWorkStore } from "@/store/workStore";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRoute, onBeforeRouteUpdate } from "vue-router";
-import router from "@/router";
+import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const searchPage = ref(getSearchPage());
 const searchTitle = ref(getSearchTitle());
 
