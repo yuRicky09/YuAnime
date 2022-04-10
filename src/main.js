@@ -1,3 +1,4 @@
+import smoothscroll from "smoothscroll-polyfill";
 import { createApp, markRaw } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
@@ -5,6 +6,9 @@ import router from "@/router";
 import "./index.css";
 import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
+
+// 讓ios兼容Scroll-behavior
+smoothscroll.polyfill();
 
 const app = createApp(App);
 const pinia = createPinia();

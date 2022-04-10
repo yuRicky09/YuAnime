@@ -38,9 +38,9 @@
 
 ## :sparkles: Features
 
-:heavy_check_mark: 可依照動畫季度搜尋動畫
-:heavy_check_mark: 可依照動畫名搜尋動畫
-:heavy_check_mark: 動畫詳情頁彙整了所查詢動畫的官網、Twitter、聲優、工作人員等資訊
+:heavy_check_mark: 可依照動畫季度搜尋動畫 <br>
+:heavy_check_mark: 可依照動畫名搜尋動畫 <br>
+:heavy_check_mark: 動畫詳情頁彙整了所查詢動畫的官網、Twitter、聲優、工作人員等資訊 <br>
 
 ## :rocket: Technologies
 
