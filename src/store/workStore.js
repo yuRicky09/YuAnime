@@ -1,9 +1,8 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { useAnnictApi } from "@/composables/useAnnictApi";
 import { useToast } from "vue-toastification";
 import { useWorkImageUrl } from "@/composables/useWorkImageUrl";
+import api from "@/apis";
 
-const annictApi = useAnnictApi();
 const toast = useToast();
 const { getWorkImageUrl } = useWorkImageUrl();
 
@@ -32,7 +31,7 @@ export const useWorkStore = defineStore("workStore", {
       try {
         this.isLoading = true;
 
-        const { data } = await annictApi.getWorks({
+        const { data } = await api.getWorks({
           sort_watchers_count: "desc",
           per_page: this.workPerPage,
           ...queryObj,
@@ -54,9 +53,9 @@ export const useWorkStore = defineStore("workStore", {
         this.isLoading = true;
 
         this.work = this.works.find((work) => work.id === id);
-        // 防止是透過直接於url輸入id而非透過連結跳轉時，因store內未有存取資料而直接判斷無此作品，故多加一步驟向db抓資料
+        // 透過url直接搜尋作品id時，works將不會有任何緩存資料，需向server發起請求尋找作品
         if (!this.work) {
-          const { data } = await annictApi.getWorks({ filter_ids: id });
+          const { data } = await api.getWorks({ filter_ids: id });
           if (!data.works[0]) {
             this.router.push({ name: "NotFound" });
             return;
@@ -66,11 +65,22 @@ export const useWorkStore = defineStore("workStore", {
 
         document.title = `${this.work.title} | YuAnime`;
         this.workImageUrl = getWorkImageUrl(this.work);
-
-        const castsPromise = annictApi.getCasts({
+        await this.getCastsAndStaffs(id);
+      } catch (err) {
+        console.error(err.message);
+        toast.error(
+          "エラーが発生しました。しばらくしてからもう一度お試しください。"
+        );
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getCastsAndStaffs(id) {
+      try {
+        const castsPromise = api.getCasts({
           filter_work_id: id,
         });
-        const staffsPromise = annictApi.getStaffs({
+        const staffsPromise = api.getStaffs({
           filter_work_id: id,
         });
         const [
@@ -85,12 +95,7 @@ export const useWorkStore = defineStore("workStore", {
         this.casts = casts;
         this.staffs = staffs;
       } catch (err) {
-        console.error(err.message);
-        toast.error(
-          "エラーが発生しました。しばらくしてからもう一度お試しください。"
-        );
-      } finally {
-        this.isLoading = false;
+        throw new Error(err.message);
       }
     },
   },
